@@ -21,4 +21,10 @@ const todoList = {
   }
 }
 
+const view = {
+  grid: new Muuri('#grid', { dragEnabled: true }),
+  list: document.getElementById('#grid'),
+  input: document.getElementById('#add-item')
+}
+
 console.table(todoList.todos)
