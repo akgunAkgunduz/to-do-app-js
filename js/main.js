@@ -7,6 +7,8 @@ const todoList = {
     this.todos.push(item)
     
     console.table(this.todos)
+
+    return item
   },
 
   removeItem(id) {
@@ -21,12 +23,19 @@ const todoList = {
   }
 }
 
+const controller = {
+  addTodo(name, completed) {
+    const todo = todoList.addItem(name, completed)
+    view.addItem(todo)
+  }
+}
+
 const view = {
   grid: new Muuri('#grid', { dragEnabled: true }),
 
-  list: document.getElementById('#grid'),
+  list: document.getElementById('grid'),
 
-  input: document.getElementById('#add-item'),
+  input: document.getElementById('add-item'),
 
   initList() {
     todoList.todos.forEach(todo => {
@@ -56,9 +65,24 @@ const view = {
     const item = document.querySelector(`.item[data-id="${id}"]`)
 
     this.grid.remove(item, { removeElements: true })
+  },
+
+  setUpEventListeners() {
+    this.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const name = e.target.value.trim()
+        
+        if (name !== '') {
+          controller.addTodo(name, false)
+          e.target.value = ''
+        }
+      }
+    })
   }
 }
 
 console.table(todoList.todos)
 
+view.input.focus()
 view.initList()
+view.setUpEventListeners()
