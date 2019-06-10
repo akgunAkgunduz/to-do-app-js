@@ -13,6 +13,12 @@ const controller = {
     view.updateItemIndices()
   },
 
+  toggleTodoStatus(id, listItem) {
+    const isCompleted = todoList.toggleItemStatus(id)
+    
+    view.updateItemStyling(listItem, isCompleted)
+  },
+
   reorderTodos(newIndices) {
     todoList.reorderItems(newIndices)
 

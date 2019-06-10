@@ -15,18 +15,34 @@ const todoList = {
     for (let i = 0; i < this.todos.length; i++) {
       if (this.todos[i].id === id) {
         this.todos.splice(i, 1)
-        break;
+        break
       }
     }
     
     console.table(this.todos)
   },
 
+  toggleItemStatus(id) {
+    let isCompleted = null
+
+    for (let i = 0; i < this.todos.length; i++) {
+      if (this.todos[i].id === id) {
+        this.todos[i].completed = !this.todos[i].completed
+        isCompleted = this.todos[i].completed
+        break
+      }
+    }
+
+    console.table(this.todos)
+
+    return isCompleted
+  },
+
   reorderItems(newIndices) {
     const reorderedTodos = newIndices.map(index => this.todos[index])
 
     this.todos = reorderedTodos
-    
+
     console.table(this.todos)
   }
 }

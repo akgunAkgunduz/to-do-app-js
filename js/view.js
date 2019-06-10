@@ -43,7 +43,7 @@ const view = {
     toggleCheckbox.type = 'checkbox'
     toggleCheckbox.dataset.id = id
     toggleCheckbox.checked = completed ? true : false
-    let toggleDiv = document.createElement('div')
+    const toggleDiv = document.createElement('div')
     toggleDiv.classList.add('check-mark')
     toggleDiv.dataset.id = id
 
@@ -69,7 +69,8 @@ const view = {
     itemContentDiv.appendChild(deleteButton)
     itemDiv.appendChild(itemContentDiv)
 
-    view.addEventListenersForItem(itemDiv)
+    this.updateItemStyling(itemDiv, completed)
+    this.addEventListenersForItem(itemDiv)
 
     this.grid.add(itemDiv)
   },
@@ -78,6 +79,15 @@ const view = {
     const item = document.querySelector(`.item[data-id="${id}"]`)
 
     this.grid.remove(item, { removeElements: true })
+  },
+
+  updateItemStyling(item, isCompleted) {
+    const content = item.querySelector('.todo-content')
+    if (isCompleted) {
+      content.classList.add('completed')
+    } else {
+      content.classList.remove('completed')
+    }
   },
 
   updateItemIndices() {
@@ -99,10 +109,10 @@ const view = {
     })
 
     this.grid.on('dragReleaseEnd', (item) => {
-      let indices = []
+      const indices = []
 
-      let grid = item.getGrid()
-      let items = grid.getItems()
+      const grid = item.getGrid()
+      const items = grid.getItems()
 
       items.forEach(item => indices.push(item.getElement().dataset.index))
 
@@ -110,6 +120,13 @@ const view = {
     })
 
     this.list.addEventListener('click', (e) => {
+      if (e.target.matches('.check-mark')) {
+        const id = parseInt(e.target.dataset.id)
+        const listItem = e.target.parentNode.parentNode.parentNode.parentNode
+        
+        controller.toggleTodoStatus(id, listItem)
+      }
+
       if (e.target.matches('.del-btn')) {
         const id = parseInt(e.target.dataset.id)
 

@@ -158,11 +158,17 @@ header h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  transition: color ease-out .2s;
 }
 
 .del-btn {
   color: red;
   cursor: pointer;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: rgba(0, 0, 128, 0.25);
 }
 
 .invisible {
