@@ -1,5 +1,10 @@
 const view = {
-  grid: new Muuri('#grid', { dragEnabled: true }),
+  grid: new Muuri('#grid', { 
+    dragEnabled: true,
+    dragStartPredicate: {
+      handle: '.handle'
+    }
+  }),
 
   list: document.getElementById('grid'),
 
@@ -24,6 +29,7 @@ const view = {
 
     const handle = document.createElement('div')
     handle.classList.add('handle')
+    handle.classList.add('invisible')
     const handleIcon = document.createElement('i')
     handleIcon.classList.add('fas')
     handleIcon.classList.add('fa-grip-vertical')
@@ -54,6 +60,7 @@ const view = {
     deleteButton.classList.add('del-btn')
     deleteButton.classList.add('fas')
     deleteButton.classList.add('fa-trash')
+    deleteButton.classList.add('invisible')
     deleteButton.dataset.id = id
     
     itemContentDiv.appendChild(handle)
@@ -101,13 +108,31 @@ const view = {
 
       controller.reorderTodos(indices)
     })
+
+    this.list.addEventListener('click', (e) => {
+      if (e.target.matches('.del-btn')) {
+        const id = parseInt(e.target.dataset.id)
+
+        controller.removeTodo(id)
+      }
+    })
   },
 
   addEventListenersForItem(item) {
-    item.addEventListener('dblclick', (e) => {
-      const id = parseInt(e.target.dataset.id)
+    item.addEventListener('mouseenter', (e) => {
+      const handle = e.target.querySelector('.handle')
+      const deleteButton = e.target.querySelector('.del-btn')
 
-      controller.removeTodo(id)
+      handle.classList.remove('invisible')
+      deleteButton.classList.remove('invisible')
+    })
+
+    item.addEventListener('mouseleave', (e) => {
+      const handle = e.target.querySelector('.handle')
+      const deleteButton = e.target.querySelector('.del-btn')
+
+      handle.classList.add('invisible')
+      deleteButton.classList.add('invisible')
     })
   }
 }

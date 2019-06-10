@@ -85,6 +85,7 @@ header h1 {
 
 .handle {
   font-size: 22px;
+  color: rgb(0, 0, 128);
   cursor: move;
 }
 
@@ -92,7 +93,6 @@ header h1 {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  color: rgb(0, 0, 128);
 }
 
 .toggle {
@@ -161,5 +161,10 @@ header h1 {
 }
 
 .del-btn {
-  cursor: pointer;  
+  color: red;
+  cursor: pointer;
+}
+
+.invisible {
+  visibility: hidden;
 }
