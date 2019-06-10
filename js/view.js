@@ -22,12 +22,44 @@ const view = {
     itemContentDiv.classList.add('item-content')
     itemContentDiv.dataset.id = id
 
-    let todoContentDiv = document.createElement('div')
+    const handle = document.createElement('div')
+    handle.classList.add('handle')
+    const handleIcon = document.createElement('i')
+    handleIcon.classList.add('fas')
+    handleIcon.classList.add('fa-grip-vertical')
+    handle.appendChild(handleIcon)
+
+    const toggle = document.createElement('div')
+    toggle.classList.add('toggle')
+    toggle.dataset.id = id
+    const toggleLabel = document.createElement('label')
+    const toggleCheckbox = document.createElement('input')
+    toggleCheckbox.type = 'checkbox'
+    toggleCheckbox.dataset.id = id
+    toggleCheckbox.checked = completed ? true : false
+    let toggleDiv = document.createElement('div')
+    toggleDiv.classList.add('check-mark')
+    toggleDiv.dataset.id = id
+
+    toggleLabel.appendChild(toggleCheckbox)
+    toggleLabel.appendChild(toggleDiv)
+    toggle.appendChild(toggleLabel)
+
+    const todoContentDiv = document.createElement('div')
     todoContentDiv.classList.add('todo-content')
     todoContentDiv.innerText = name
     todoContentDiv.dataset.id = id
 
+    const deleteButton = document.createElement('div')
+    deleteButton.classList.add('del-btn')
+    deleteButton.classList.add('fas')
+    deleteButton.classList.add('fa-trash')
+    deleteButton.dataset.id = id
+    
+    itemContentDiv.appendChild(handle)
+    itemContentDiv.appendChild(toggle)
     itemContentDiv.appendChild(todoContentDiv)
+    itemContentDiv.appendChild(deleteButton)
     itemDiv.appendChild(itemContentDiv)
 
     view.addEventListenersForItem(itemDiv)
