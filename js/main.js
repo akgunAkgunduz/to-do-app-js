@@ -25,8 +25,14 @@ const view = {
   grid: new Muuri('#grid', { dragEnabled: true }),
 
   list: document.getElementById('#grid'),
-  
+
   input: document.getElementById('#add-item'),
+
+  initList() {
+    todoList.todos.forEach(todo => {
+      this.addItem(todo)
+    })
+  },
 
   addItem({ id, name, completed }) {
     const itemDiv = document.createElement('div')
@@ -54,3 +60,5 @@ const view = {
 }
 
 console.table(todoList.todos)
+
+view.initList()
