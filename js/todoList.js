@@ -1,5 +1,5 @@
 const todoList = {
-  todos: dummyData.todos,
+  todos: store.get(),
 
   addItem(name, completed) {
     const item = { id: Date.now(), name, completed }
