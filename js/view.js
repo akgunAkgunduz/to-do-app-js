@@ -9,6 +9,8 @@ const view = {
     todoList.todos.forEach(todo => {
       this.addItem(todo)
     })
+
+    this.updateItemIndices()
   },
 
   addItem({ id, name, completed }) {
@@ -39,6 +41,12 @@ const view = {
     this.grid.remove(item, { removeElements: true })
   },
 
+  updateItemIndices() {
+    const items = this.grid.getItems()
+    
+    items.forEach((item, i) => item.getElement().dataset.index = i)
+  },
+
   setUpEventListeners() {
     this.input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -49,6 +57,17 @@ const view = {
           e.target.value = ''
         }
       }
+    })
+
+    this.grid.on('dragReleaseEnd', (item) => {
+      let indices = []
+
+      let grid = item.getGrid()
+      let items = grid.getItems()
+
+      items.forEach(item => indices.push(item.getElement().dataset.index))
+
+      controller.reorderTodos(indices)
     })
   },
 

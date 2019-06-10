@@ -20,5 +20,13 @@ const todoList = {
     }
     
     console.table(this.todos)
+  },
+
+  reorderItems(newIndices) {
+    const reorderedTodos = newIndices.map(index => this.todos[index])
+
+    this.todos = reorderedTodos
+    
+    console.table(this.todos)
   }
 }
