@@ -26,7 +26,14 @@ const todoList = {
 const controller = {
   addTodo(name, completed) {
     const todo = todoList.addItem(name, completed)
+
     view.addItem(todo)
+  },
+
+  removeTodo(id) {
+    todoList.removeItem(id)
+    
+    view.removeItem(id)
   }
 }
 
@@ -50,13 +57,17 @@ const view = {
 
     const itemContentDiv = document.createElement('div')
     itemContentDiv.classList.add('item-content')
+    itemContentDiv.dataset.id = id
 
     let todoContentDiv = document.createElement('div')
     todoContentDiv.classList.add('todo-content')
     todoContentDiv.innerText = name
+    todoContentDiv.dataset.id = id
 
     itemContentDiv.appendChild(todoContentDiv)
     itemDiv.appendChild(itemContentDiv)
+
+    view.addEventListenersForItem(itemDiv)
 
     this.grid.add(itemDiv)
   },
@@ -77,6 +88,14 @@ const view = {
           e.target.value = ''
         }
       }
+    })
+  },
+
+  addEventListenersForItem(item) {
+    item.addEventListener('dblclick', (e) => {
+      const id = parseInt(e.target.dataset.id)
+
+      controller.removeTodo(id)
     })
   }
 }
