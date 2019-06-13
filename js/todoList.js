@@ -38,6 +38,17 @@ const todoList = {
     return isCompleted
   },
 
+  updateItemName(id, newName) {
+    for (let i = 0; i < this.todos.length; i++) {
+      if (this.todos[i].id === id) {
+        this.todos[i].name = newName
+        break
+      }
+    }
+    
+    console.table(this.todos)
+  },
+
   reorderItems(newIndices) {
     const reorderedTodos = newIndices.map(index => this.todos[index])
 

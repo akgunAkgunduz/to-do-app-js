@@ -163,8 +163,22 @@ header h1 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* cursor: pointer; */
+  cursor: pointer;
   transition: color ease-out .2s;
+}
+
+.edit {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  padding: 0 10px 0 84px;
+  height: 48px;
+  line-height: 48px;
+  font-size: 1rem;
+  border: 0;
+  outline: none;
 }
 
 .del-btn {
@@ -183,4 +197,8 @@ header h1 {
 
 .invisible {
   visibility: hidden;
+}
+
+.hidden {
+  display: none;
 }

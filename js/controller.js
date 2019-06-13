@@ -25,6 +25,12 @@ const controller = {
     view.updateItemStyling(listItem, isCompleted)
   },
 
+  updateTodoName(id, newName) {
+    todoList.updateItemName(id, newName)
+
+    store.set(todoList.todos)
+  },
+
   reorderTodos(newIndices) {
     todoList.reorderItems(newIndices)
 

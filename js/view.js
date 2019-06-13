@@ -46,7 +46,6 @@ const view = {
     const toggleDiv = document.createElement('div')
     toggleDiv.classList.add('check-mark')
     toggleDiv.dataset.id = id
-
     toggleLabel.appendChild(toggleCheckbox)
     toggleLabel.appendChild(toggleDiv)
     toggle.appendChild(toggleLabel)
@@ -56,6 +55,12 @@ const view = {
     todoContentDiv.innerText = name
     todoContentDiv.dataset.id = id
 
+    const editInput = document.createElement('input')
+    editInput.type = 'text'
+    editInput.classList.add('edit')
+    editInput.classList.add('hidden')
+    editInput.dataset.id = id
+    
     const deleteButton = document.createElement('div')
     deleteButton.classList.add('del-btn')
     deleteButton.classList.add('fas')
@@ -66,10 +71,13 @@ const view = {
     itemContentDiv.appendChild(handle)
     itemContentDiv.appendChild(toggle)
     itemContentDiv.appendChild(todoContentDiv)
+    itemContentDiv.appendChild(editInput)
     itemContentDiv.appendChild(deleteButton)
     itemDiv.appendChild(itemContentDiv)
-
+    
     this.updateItemStyling(itemDiv, completed)
+
+    this.addEventListenersForEditInput(editInput)
     this.addEventListenersForItem(itemDiv)
 
     this.grid.add(itemDiv)
@@ -79,6 +87,10 @@ const view = {
     const item = document.querySelector(`.item[data-id="${id}"]`)
 
     this.grid.remove(item, { removeElements: true })
+  },
+
+  updateItemName(id, newName) {
+    this.list.querySelector(`.todo-content[data-id="${id}"]`).innerText = newName
   },
 
   updateItemStyling(item, isCompleted) {
@@ -133,6 +145,17 @@ const view = {
         controller.removeTodo(id)
       }
     })
+
+    this.list.addEventListener('dblclick', (e) => {
+      if (e.target.matches('.todo-content')) {
+        const id = parseInt(e.target.dataset.id)
+        const editInput = document.querySelector(`.edit[data-id="${id}"]`)
+
+        editInput.classList.remove('hidden')
+        editInput.value = e.target.innerText
+        editInput.focus()
+      }
+    })
   },
 
   addEventListenersForItem(item) {
@@ -151,5 +174,28 @@ const view = {
       handle.classList.add('invisible')
       deleteButton.classList.add('invisible')
     })
+  },
+
+  addEventListenersForEditInput(input) {    
+    input.addEventListener('blur', (e) => {
+      e.target.classList.add('hidden')
+    })
+
+    input.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        const id = parseInt(e.target.dataset.id)
+        const newName = e.target.value.trim()
+
+        if (newName !== '') {
+          controller.updateTodoName(id, newName)
+          view.updateItemName(id, newName)
+          e.target.blur()
+        }
+      }
+
+      if (e.key === 'Escape') {
+        e.target.blur()
+      }
+    })    
   }
 }
