@@ -65,7 +65,7 @@ const view = {
     deleteButton.classList.add('del-btn')
     deleteButton.classList.add('fas')
     deleteButton.classList.add('fa-trash')
-    deleteButton.classList.add('invisible')
+    deleteButton.classList.add('hidden')
     deleteButton.dataset.id = id
     
     itemContentDiv.appendChild(handle)
@@ -164,7 +164,7 @@ const view = {
       const deleteButton = e.target.querySelector('.del-btn')
 
       handle.classList.remove('invisible')
-      deleteButton.classList.remove('invisible')
+      deleteButton.classList.remove('hidden')
     })
 
     item.addEventListener('mouseleave', (e) => {
@@ -172,7 +172,7 @@ const view = {
       const deleteButton = e.target.querySelector('.del-btn')
 
       handle.classList.add('invisible')
-      deleteButton.classList.add('invisible')
+      deleteButton.classList.add('hidden')
     })
   },
 
