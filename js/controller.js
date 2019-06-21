@@ -4,7 +4,7 @@ const controller = {
 
     store.set(todoList.todos)
 
-    view.addItem(todo)
+    view.addItemToGrid(todo)
     view.updateItemIndices()
   },
 
@@ -13,7 +13,7 @@ const controller = {
 
     store.set(todoList.todos)
 
-    view.removeItem(id)
+    view.removeItemFromGrid(id)
     view.updateItemIndices()
   },
 

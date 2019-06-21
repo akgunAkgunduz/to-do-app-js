@@ -12,67 +12,73 @@ const view = {
 
   initList() {
     todoList.todos.forEach(todo => {
-      this.addItem(todo)
+      this.addItemToGrid(todo)
     })
 
     this.updateItemIndices()
   },
 
-  addItem({ id, name, completed }) {
+  addItemToGrid({ id, name, completed }) {
     const itemDiv = document.createElement('div')
+    const itemContentDiv = document.createElement('div')
+
+    const handle = document.createElement('div')
+    const handleIcon = document.createElement('i')
+
+    const toggle = document.createElement('div')
+    const toggleLabel = document.createElement('label')
+    const toggleCheckbox = document.createElement('input')
+    const toggleDiv = document.createElement('div')
+
+    const todoContentDiv = document.createElement('div')
+
+    const editInput = document.createElement('input')
+
+    const deleteButton = document.createElement('div')
+
     itemDiv.classList.add('item')
     itemDiv.dataset.id = id
 
-    const itemContentDiv = document.createElement('div')
     itemContentDiv.classList.add('item-content')
     itemContentDiv.dataset.id = id
 
-    const handle = document.createElement('div')
-    handle.classList.add('handle')
-    handle.classList.add('invisible')
-    const handleIcon = document.createElement('i')
-    handleIcon.classList.add('fas')
-    handleIcon.classList.add('fa-grip-vertical')
-    handle.appendChild(handleIcon)
+    handle.className = 'handle invisible'
 
-    const toggle = document.createElement('div')
-    toggle.classList.add('toggle')
+    handleIcon.className = 'fas fa-grip-vertical'
+
+    toggle.className = 'toggle'
     toggle.dataset.id = id
-    const toggleLabel = document.createElement('label')
-    const toggleCheckbox = document.createElement('input')
+
     toggleCheckbox.type = 'checkbox'
     toggleCheckbox.dataset.id = id
     toggleCheckbox.checked = completed ? true : false
-    const toggleDiv = document.createElement('div')
-    toggleDiv.classList.add('check-mark')
-    toggleDiv.dataset.id = id
-    toggleLabel.appendChild(toggleCheckbox)
-    toggleLabel.appendChild(toggleDiv)
-    toggle.appendChild(toggleLabel)
 
-    const todoContentDiv = document.createElement('div')
-    todoContentDiv.classList.add('todo-content')
+    toggleDiv.className = 'check-mark'
+    toggleDiv.dataset.id = id    
+
+    todoContentDiv.className = 'todo-content'
     todoContentDiv.innerText = name
     todoContentDiv.dataset.id = id
 
-    const editInput = document.createElement('input')
     editInput.type = 'text'
-    editInput.classList.add('edit')
-    editInput.classList.add('hidden')
+    editInput.className = 'edit hidden'
     editInput.dataset.id = id
-    
-    const deleteButton = document.createElement('div')
-    deleteButton.classList.add('del-btn')
-    deleteButton.classList.add('fas')
-    deleteButton.classList.add('fa-trash')
-    deleteButton.classList.add('hidden')
+
+    deleteButton.className = 'del-btn hidden fas fa-trash'
     deleteButton.dataset.id = id
+
+    handle.appendChild(handleIcon)
+
+    toggleLabel.appendChild(toggleCheckbox)
+    toggleLabel.appendChild(toggleDiv)
+    toggle.appendChild(toggleLabel)
     
     itemContentDiv.appendChild(handle)
     itemContentDiv.appendChild(toggle)
     itemContentDiv.appendChild(todoContentDiv)
     itemContentDiv.appendChild(editInput)
     itemContentDiv.appendChild(deleteButton)
+    
     itemDiv.appendChild(itemContentDiv)
     
     this.updateItemStyling(itemDiv, completed)
@@ -83,7 +89,7 @@ const view = {
     this.grid.add(itemDiv)
   },
 
-  removeItem(id) {
+  removeItemFromGrid(id) {
     const item = document.querySelector(`.item[data-id="${id}"]`)
 
     this.grid.remove(item, { removeElements: true })
