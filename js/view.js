@@ -101,11 +101,8 @@ const view = {
 
   updateItemStyling(item, isCompleted) {
     const content = item.querySelector('.todo-content')
-    if (isCompleted) {
-      content.classList.add('completed')
-    } else {
-      content.classList.remove('completed')
-    }
+    
+    isCompleted ? content.classList.add('completed') : content.classList.remove('completed')
   },
 
   updateItemIndices() {
@@ -140,8 +137,8 @@ const view = {
     this.list.addEventListener('click', (e) => {
       if (e.target.matches('.check-mark')) {
         const id = parseInt(e.target.dataset.id)
-        const listItem = e.target.parentNode.parentNode.parentNode.parentNode
-        
+        const listItem = e.target.closest('.item')
+
         controller.toggleTodoStatus(id, listItem)
       }
 
