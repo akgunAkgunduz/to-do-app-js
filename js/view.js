@@ -22,6 +22,7 @@ const view = {
     const itemDiv = document.createElement('div')
     const itemContentDiv = document.createElement('div')
 
+    const handleContainer = document.createElement('div')
     const handle = document.createElement('div')
     const handleIcon = document.createElement('i')
 
@@ -34,7 +35,9 @@ const view = {
 
     const editInput = document.createElement('input')
 
-    const deleteButton = document.createElement('div')
+    const deleteButtonContainer = document.createElement('div')
+    const deleteButton = document.createElement('button')
+    const deleteButtonIcon = document.createElement('i')
 
     itemDiv.classList.add('item')
     itemDiv.dataset.id = id
@@ -42,7 +45,7 @@ const view = {
     itemContentDiv.classList.add('item-content')
     itemContentDiv.dataset.id = id
 
-    handle.className = 'handle invisible'
+    handle.className = 'handle hidden'
 
     handleIcon.className = 'fas fa-grip-vertical'
 
@@ -64,33 +67,44 @@ const view = {
     editInput.className = 'edit hidden'
     editInput.dataset.id = id
 
-    deleteButton.className = 'del-btn hidden fas fa-trash'
+    deleteButton.className = 'del-btn hidden'
+    deleteButtonIcon.className = 'fas fa-trash'
     deleteButton.dataset.id = id
 
     handle.appendChild(handleIcon)
+    handleContainer.appendChild(handle)
 
     toggleLabel.appendChild(toggleCheckbox)
     toggleLabel.appendChild(toggleDiv)
     toggle.appendChild(toggleLabel)
+
+    deleteButton.appendChild(deleteButtonIcon)
+    deleteButtonContainer.appendChild(deleteButton)
     
-    itemContentDiv.appendChild(handle)
+    itemContentDiv.appendChild(handleContainer)
     itemContentDiv.appendChild(toggle)
     itemContentDiv.appendChild(todoContentDiv)
     itemContentDiv.appendChild(editInput)
-    itemContentDiv.appendChild(deleteButton)
+    itemContentDiv.appendChild(deleteButtonContainer)
     
     itemDiv.appendChild(itemContentDiv)
     
     this.updateItemStyling(itemDiv, completed)
 
+    toggleDiv.addEventListener('click', this.handleToggleClick)
     this.addEventListenersForEditInput(editInput)
-    this.addEventListenersForItem(itemDiv)
+    deleteButton.addEventListener('click', this.handleDeleteButtonClick)
 
     this.grid.add(itemDiv)
   },
 
   removeItemFromGrid(id) {
     const item = document.querySelector(`.item[data-id="${id}"]`)
+    const deleteButton = item.querySelector('.del-btn')
+    const toggleDiv = item.querySelector('.check-mark')
+
+    deleteButton.removeEventListener('click', this.handleDeleteButtonClick)
+    toggleDiv.removeEventListener('click', this.handleToggleClick)
 
     this.grid.remove(item, { removeElements: true })
   },
@@ -109,6 +123,19 @@ const view = {
     const items = this.grid.getItems()
     
     items.forEach((item, i) => item.getElement().dataset.index = i)
+  },
+
+  handleToggleClick(e) {
+    const listItem = e.target.closest('.item')
+    const id = parseInt(listItem.dataset.id)
+
+    controller.toggleTodoStatus(id, listItem)
+  },
+
+  handleDeleteButtonClick(e) {
+    const id = parseInt(e.target.closest('.item').dataset.id)
+    
+    controller.removeTodo(id)
   },
 
   setUpEventListeners() {
@@ -134,21 +161,6 @@ const view = {
       controller.reorderTodos(indices)
     })
 
-    this.list.addEventListener('click', (e) => {
-      if (e.target.matches('.check-mark')) {
-        const id = parseInt(e.target.dataset.id)
-        const listItem = e.target.closest('.item')
-
-        controller.toggleTodoStatus(id, listItem)
-      }
-
-      if (e.target.matches('.del-btn')) {
-        const id = parseInt(e.target.dataset.id)
-
-        controller.removeTodo(id)
-      }
-    })
-
     this.list.addEventListener('dblclick', (e) => {
       if (e.target.matches('.todo-content')) {
         const id = parseInt(e.target.dataset.id)
@@ -158,24 +170,6 @@ const view = {
         editInput.value = e.target.innerText
         editInput.focus()
       }
-    })
-  },
-
-  addEventListenersForItem(item) {
-    item.addEventListener('mouseenter', (e) => {
-      const handle = e.target.querySelector('.handle')
-      const deleteButton = e.target.querySelector('.del-btn')
-
-      handle.classList.remove('invisible')
-      deleteButton.classList.remove('hidden')
-    })
-
-    item.addEventListener('mouseleave', (e) => {
-      const handle = e.target.querySelector('.handle')
-      const deleteButton = e.target.querySelector('.del-btn')
-
-      handle.classList.add('invisible')
-      deleteButton.classList.add('hidden')
     })
   },
 

@@ -84,6 +84,11 @@ header h1 {
   padding: 9px 10px;
 }
 
+.item-content:hover .handle, 
+.item-content:hover .del-btn {
+  display: block;
+}
+
 .handle {
   font-size: 22px;
   color: rgba(0, 0, 128, .5);
@@ -104,7 +109,6 @@ header h1 {
 .toggle {
   height: 30px;
   width: 30px;
-  cursor: pointer;  
   background-color: white;
   border: 1px solid navy;
   transition: background-color ease-in .15s;
@@ -120,6 +124,7 @@ header h1 {
   width: 28px;
   cursor: pointer;
   user-select: none;
+  cursor: pointer;
 }
 
 .toggle input {
@@ -182,8 +187,18 @@ header h1 {
 }
 
 .del-btn {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
   color: rgba(255, 0, 0, .5);
+  line-height: 30px;
   cursor: pointer;
+}
+
+.del-btn i {
+  line-height: 30px;
 }
 
 .del-btn:hover {
@@ -193,10 +208,6 @@ header h1 {
 .completed {
   text-decoration: line-through;
   color: rgba(0, 0, 128, 0.25);
-}
-
-.invisible {
-  visibility: hidden;
 }
 
 .hidden {
