@@ -32,18 +32,18 @@ const view = {
   },
 
   removeItemFromGrid(id) {
-    const item = document.querySelector(`.item[data-id="${id}"]`)
+    const item = select(`.item[data-id="${id}"]`)
 
     this.removeEventListenersFromTodoItem(item)
     this.grid.remove(item, { removeElements: true })
   },
 
   updateItemName(id, newName) {
-    this.list.querySelector(`.todo-content[data-id="${id}"]`).innerHTML = newName
+    select(`.todo-content[data-id="${id}"]`, this.list).innerHTML = newName
   },
 
   updateItemStyling(item, isCompleted) {
-    const content = item.querySelector('.todo-content')
+    const content = select('.todo-content', item)
     
     isCompleted ? content.classList.add('completed') : content.classList.remove('completed')
   },
@@ -52,6 +52,15 @@ const view = {
     const items = this.grid.getItems()
     
     items.forEach((item, i) => item.getElement().dataset.index = i)
+  },
+
+  selectItemElements(item) {
+    return {
+      toggle: select('input[type="checkbox"]', item),
+      todoContent: select('.todo-content', item),
+      deleteButton: select('.del-btn', item),
+      editInput: select('.edit', item)
+    }
   },
 
   // Event Handlers
@@ -88,10 +97,11 @@ const view = {
 
   handleTodoContentDoubleClick(e) {
     const listItem = e.target.closest('.item')
-    const editInput = listItem.querySelector('.edit')
+    const id = listItem.dataset.id
+    const editInput = select('.edit', listItem)
 
     editInput.classList.remove('hidden')
-    editInput.value = e.target.innerHTML
+    editInput.value = select(`.todo-content[data-id="${id}"]`).innerHTML
     editInput.focus()
   },
 
@@ -131,26 +141,20 @@ const view = {
   },
 
   addEventListenersForTodoItem(item) {
-    const toggleDiv = item.querySelector('.check-mark')
-    const todoContentDiv = item.querySelector('.todo-content')
-    const deleteButton = item.querySelector('.del-btn')
-    const editInput = item.querySelector('.edit')
+    const { toggle, todoContent, deleteButton, editInput } = this.selectItemElements(item)
 
-    toggleDiv.addEventListener('click', this.handleToggleClick)
-    todoContentDiv.addEventListener('dblclick', this.handleTodoContentDoubleClick)
+    toggle.addEventListener('click', this.handleToggleClick)
+    todoContent.addEventListener('dblclick', this.handleTodoContentDoubleClick)
     deleteButton.addEventListener('click', this.handleDeleteButtonClick) 
     editInput.addEventListener('blur', this.handleEditInputBlur)
     editInput.addEventListener('keyup', this.handleEditInputKeyup)
   },
 
   removeEventListenersFromTodoItem(item) {
-    const toggleDiv = item.querySelector('.check-mark')
-    const todoContentDiv = item.querySelector('.todo-content')
-    const deleteButton = item.querySelector('.del-btn')
-    const editInput = item.querySelector('.edit')
+    const { toggle, todoContent, deleteButton, editInput } = this.selectItemElements(item)
 
-    toggleDiv.removeEventListener('click', this.handleToggleClick)
-    todoContentDiv.removeEventListener('dblclick', this.handleTodoContentDoubleClick)
+    toggle.removeEventListener('click', this.handleToggleClick)
+    todoContent.removeEventListener('dblclick', this.handleTodoContentDoubleClick)
     deleteButton.removeEventListener('click', this.handleDeleteButtonClick)
     editInput.removeEventListener('blur', this.handleEditInputBlur)
     editInput.removeEventListener('keyup', this.handleEditInputKeyup)
