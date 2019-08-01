@@ -5,36 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <script src="https://kit.fontawesome.com/092b9b7831.js"></script>
-  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
   <title>JavaScript To-do App</title>
+  
+  <script defer src="https://kit.fontawesome.com/092b9b7831.js"></script>
+  <script defer src="https://unpkg.com/web-animations-js@2.3.1/web-animations.min.js"></script>
+  <script defer src="https://unpkg.com/hammerjs@2.0.8/hammer.min.js"></script>
+  <script defer src="https://unpkg.com/muuri@0.7.1/dist/muuri.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.11/purify.min.js"></script>
+  <script defer src="js/utilities.js"></script>  
+  <script defer src="js/store.js"></script>
+  <script defer src="js/todoList.js"></script>
+  <script defer src="js/controller.js"></script>
+  <script defer src="js/templates.js"></script>
+  <script defer src="js/view.js"></script>
+  <script defer src="js/main.js"></script>  
 </head>
 <body>
   <header>
     <h1>Your To-do List</h1>
   </header>
-
   <div id="container">
     <input type="text" id="add-item" placeholder="Add an item" autocomplete="off" autofocus>
     <div id="grid"></div>
-  </div>
-
-  <script src="https://unpkg.com/web-animations-js@2.3.1/web-animations.min.js"></script>
-  <script src="https://unpkg.com/hammerjs@2.0.8/hammer.min.js"></script>
-  <script src="https://unpkg.com/muuri@0.7.1/dist/muuri.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.11/purify.min.js"></script>
-
-  <script src="js/utilities.js"></script>
-  
-  <script src="js/store.js"></script>
-  <script src="js/todoList.js"></script>
-  <script src="js/controller.js"></script>
-  <script src="js/templates.js"></script>
-  <script src="js/view.js"></script>
-
-  <script src="js/main.js"></script>
+  </div>  
 </body>
 </html>
