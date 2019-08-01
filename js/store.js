@@ -1,7 +1,6 @@
-let store = {
+const store = {
   get() {
-    const todos = JSON.parse(localStorage.getItem('to-do-app-js-list')) || []
-    return todos
+    return JSON.parse(localStorage.getItem('to-do-app-js-list')) || []
   },
 
   set(todos) {
