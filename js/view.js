@@ -20,68 +20,13 @@ const view = {
 
   addItemToGrid({ id, name, completed }) {
     const itemDiv = document.createElement('div')
-    const itemContentDiv = document.createElement('div')
-    const handleContainer = document.createElement('div')
-    const handle = document.createElement('div')
-    const handleIcon = document.createElement('i')
-    const toggle = document.createElement('div')
-    const toggleLabel = document.createElement('label')
-    const toggleCheckbox = document.createElement('input')
-    const toggleDiv = document.createElement('div')
-    const todoContentDiv = document.createElement('div')
-    const editInput = document.createElement('input')
-    const deleteButtonContainer = document.createElement('div')
-    const deleteButton = document.createElement('button')
-    const deleteButtonIcon = document.createElement('i')
+    const itemContentDiv = templates.createTodoItemContent(id, name, completed)
 
     itemDiv.classList.add('item')
     itemDiv.dataset.id = id
+    itemDiv.innerHTML = itemContentDiv
 
-    itemContentDiv.classList.add('item-content')
-    itemContentDiv.dataset.id = id
-
-    handle.className = 'handle hidden'
-    handleIcon.className = 'fas fa-grip-vertical'
-
-    toggle.className = 'toggle'
-    toggle.dataset.id = id
-    toggleCheckbox.type = 'checkbox'
-    toggleCheckbox.dataset.id = id
-    toggleCheckbox.checked = completed ? true : false
-    toggleDiv.className = 'check-mark'
-    toggleDiv.dataset.id = id    
-
-    todoContentDiv.className = 'todo-content'
-    todoContentDiv.innerText = name
-    todoContentDiv.dataset.id = id
-    
-    deleteButton.className = 'del-btn hidden'
-    deleteButtonIcon.className = 'fas fa-trash'
-    deleteButton.dataset.id = id
-    
-    editInput.type = 'text'
-    editInput.className = 'edit hidden'
-    editInput.dataset.id = id
-
-    handle.appendChild(handleIcon)
-    handleContainer.appendChild(handle)
-
-    toggleLabel.appendChild(toggleCheckbox)
-    toggleLabel.appendChild(toggleDiv)
-    toggle.appendChild(toggleLabel)
-
-    deleteButton.appendChild(deleteButtonIcon)
-    deleteButtonContainer.appendChild(deleteButton)
-    
-    itemContentDiv.appendChild(handleContainer)
-    itemContentDiv.appendChild(toggle)
-    itemContentDiv.appendChild(todoContentDiv)
-    itemContentDiv.appendChild(editInput)
-    itemContentDiv.appendChild(deleteButtonContainer)
-    
-    itemDiv.appendChild(itemContentDiv)
     this.updateItemStyling(itemDiv, completed)
-
     this.addEventListenersForTodoItem(itemDiv)    
     this.grid.add(itemDiv)
   },
