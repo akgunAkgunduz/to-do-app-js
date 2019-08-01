@@ -6,9 +6,9 @@ const view = {
     }
   }),
 
-  list: document.getElementById('grid'),
+  list: select('#grid'),
 
-  input: document.getElementById('add-item'),
+  input: select('#add-item'),
 
   initList() {
     todoList.todos.forEach(todo => {
@@ -39,7 +39,7 @@ const view = {
   },
 
   updateItemName(id, newName) {
-    this.list.querySelector(`.todo-content[data-id="${id}"]`).innerText = newName
+    this.list.querySelector(`.todo-content[data-id="${id}"]`).innerHTML = newName
   },
 
   updateItemStyling(item, isCompleted) {
@@ -59,9 +59,10 @@ const view = {
   handleInputKeydown(e) {
     if (e.key === 'Enter') {
       const name = e.target.value.trim()
+      const sanitizedName = sanitize(name)
       
-      if (name !== '') {
-        controller.addTodo(name, false)
+      if (sanitizedName !== '') {
+        controller.addTodo(sanitizedName, false)
         e.target.value = ''
       }
     }
@@ -90,7 +91,7 @@ const view = {
     const editInput = listItem.querySelector('.edit')
 
     editInput.classList.remove('hidden')
-    editInput.value = e.target.innerText
+    editInput.value = e.target.innerHTML
     editInput.focus()
   },
 
@@ -108,10 +109,11 @@ const view = {
     if (e.key === 'Enter') {
       const id = parseInt(e.target.dataset.id)
       const newName = e.target.value.trim()
+      const sanitizedNewName = sanitize(newName)
 
       if (newName !== '') {
-        controller.updateTodoName(id, newName)
-        view.updateItemName(id, newName)
+        controller.updateTodoName(id, sanitizedNewName)
+        view.updateItemName(id, sanitizedNewName)
         e.target.blur()
       }
     }
