@@ -1,5 +1,9 @@
 const todoList = {
-  todos: store.get(),
+  todos: [],
+
+  setItems(items) {
+    this.todos = [ ...items ]
+  },
 
   addItem(name, completed) {
     const item = { id: Date.now(), name, completed }

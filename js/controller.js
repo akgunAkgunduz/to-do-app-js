@@ -1,4 +1,10 @@
 const controller = {
+  initTodoList() {
+    const todos = store.get()
+    
+    todoList.setItems(todos)
+  },
+
   addTodo(name, completed) {
     const todo = todoList.addItem(name, completed)
 
