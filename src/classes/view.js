@@ -8,15 +8,7 @@ export default class View {
     this.input = input
   }
 
-  initList(todos) {
-    todos.forEach(todo => {
-      this.addItemToGrid(todo)
-    })
-
-    this.updateItemIndices()
-  }
-
-  addItemToGrid({ id, name, completed }) {
+  addItemToGrid({ id, name, completed }, handlers) {
     const itemDiv = document.createElement('div')
     const itemContentDiv = createTodoItemContent(id, name, completed)
 
@@ -25,14 +17,14 @@ export default class View {
     itemDiv.innerHTML = itemContentDiv
 
     this.updateItemStyling(itemDiv, completed)
-    this.addEventListenersForTodoItem(itemDiv)    
+    this.addEventListenersForTodoItem(itemDiv, handlers)
     this.grid.add(itemDiv)
   }
 
-  removeItemFromGrid(id) {
+  removeItemFromGrid(id, handlers) {
     const item = select(`.item[data-id="${id}"]`)
 
-    this.removeEventListenersFromTodoItem(item)
+    this.removeEventListenersFromTodoItem(item, handlers)
     this.grid.remove(item, { removeElements: true })
   }
 
@@ -59,5 +51,25 @@ export default class View {
       deleteButton: select('.del-btn', item),
       editInput: select('.edit', item)
     }
+  }
+
+  addEventListenersForTodoItem(item, handlers) {
+    const { toggle, todoContent, deleteButton, editInput } = this.selectItemElements(item)
+
+    toggle.addEventListener('click', handlers.handleToggleClick)
+    todoContent.addEventListener('dblclick', handlers.handleTodoContentDoubleClick)
+    deleteButton.addEventListener('click', handlers.handleDeleteButtonClick) 
+    editInput.addEventListener('blur', handlers.handleEditInputBlur)
+    editInput.addEventListener('keyup', handlers.handleEditInputKeyup)
+  }
+
+  removeEventListenersFromTodoItem(item, handlers) {
+    const { toggle, todoContent, deleteButton, editInput } = this.selectItemElements(item)
+
+    toggle.removeEventListener('click', handlers.handleToggleClick)
+    todoContent.removeEventListener('dblclick', handlers.handleTodoContentDoubleClick)
+    deleteButton.removeEventListener('click', handlers.handleDeleteButtonClick)
+    editInput.removeEventListener('blur', handlers.handleEditInputBlur)
+    editInput.removeEventListener('keyup', handlers.handleEditInputKeyup)
   }
 }
