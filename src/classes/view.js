@@ -1,4 +1,5 @@
 import { select } from '../utils/helpers'
+import { createTodoItemContent } from '../templates/todoItem'
 
 export default class View {
   constructor(grid, list, input) {
@@ -17,7 +18,7 @@ export default class View {
 
   addItemToGrid({ id, name, completed }) {
     const itemDiv = document.createElement('div')
-    const itemContentDiv = templates.createTodoItemContent(id, name, completed)
+    const itemContentDiv = createTodoItemContent(id, name, completed)
 
     itemDiv.classList.add('item')
     itemDiv.dataset.id = id
