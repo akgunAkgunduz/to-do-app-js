@@ -20,6 +20,10 @@ const input = select('#add-item')
 const view = new View(grid, list, input)
 
 export default class Controller {
+  constructor() {
+    this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this)
+  }
+
   provideItemHandlers() {
     return {
       handleToggleClick: this.handleToggleClick,
@@ -136,7 +140,7 @@ export default class Controller {
   }
 
   setUpEventListeners() {
-    view.input.addEventListener('keydown', this.handleInputKeydown)
+    view.input.addEventListener('keydown', (e) => this.handleInputKeydown(e))
     view.grid.on('dragReleaseEnd', this.handleGridDragReleaseEnd)
   }
 }
