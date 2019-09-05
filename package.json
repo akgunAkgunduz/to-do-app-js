@@ -1,0 +1,17 @@
+{
+  "name": "to-do-app-js",
+  "version": "1.0.0",
+  "description": "A to-do list app using Local Storage and Muuri",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "author": "Akgün Akgündüz",
+  "license": "ISC",
+  "dependencies": {
+    "muuri": "^0.8.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3",
+    "sass": "^1.23.0-module.beta.1"
+  }
+}
