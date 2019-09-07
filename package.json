@@ -8,6 +8,7 @@
   "author": "Akgün Akgündüz",
   "license": "ISC",
   "dependencies": {
+    "dompurify": "^1.0.11",
     "muuri": "^0.8.0"
   },
   "devDependencies": {

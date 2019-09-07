@@ -1,7 +1,7 @@
 import Store from './store'
 import TodoList from './todoList'
 import View from './View'
-import { select } from '../utils/helpers'
+import { select, sanitize } from '../utils/helpers'
 import Muuri from 'muuri'
 
 const store = new Store()
@@ -47,10 +47,10 @@ export default class Controller {
   handleInputKeydown(e) {
     if (e.key === 'Enter') {
       const name = e.target.value.trim()
-      // const sanitizedName = sanitize(name)
+      const sanitizedName = sanitize(name)
       
-      if (name !== '') {
-        const todo = todoList.addItem(name, false)
+      if (sanitizedName !== '') {
+        const todo = todoList.addItem(sanitizedName, false)
         
         store.todoList = todoList.todos
 
@@ -121,14 +121,14 @@ export default class Controller {
     if (e.key === 'Enter') {
       const id = parseInt(e.target.dataset.id)
       const newName = e.target.value.trim()
-      // const sanitizedNewName = sanitize(newName)
+      const sanitizedNewName = sanitize(newName)
 
       if (newName !== '') {
-        todoList.updateItemName(id, newName)
+        todoList.updateItemName(id, sanitizedNewName)
 
         store.todoList = todoList.todos
 
-        view.updateItemName(id, newName)
+        view.updateItemName(id, sanitizedNewName)
 
         e.target.blur()
       }
