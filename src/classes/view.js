@@ -2,10 +2,10 @@ import { select } from '../utils/helpers'
 import { createTodoItemContent } from '../templates/todoItem'
 
 export default class View {
-  constructor(grid, list, input) {
-    this.grid = grid
-    this.list = list
+  constructor(input, list, grid) {
     this.input = input
+    this.list = list
+    this.grid = grid
   }
 
   addItemToGrid({ id, name, completed }, handlers) {

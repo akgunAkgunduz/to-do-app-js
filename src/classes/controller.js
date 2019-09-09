@@ -1,11 +1,11 @@
+import Muuri from 'muuri'
 import Store from './store'
 import TodoList from './todoList'
-import View from './View'
+import View from './view'
 import { select, sanitize } from '../utils/helpers'
-import Muuri from 'muuri'
 
-const store = new Store()
-const todoList = new TodoList(store.todoList)
+const input = select('#add-item')
+const list = select('#grid')
 
 const grid = new Muuri('#grid', { 
   dragEnabled: true,
@@ -14,17 +14,17 @@ const grid = new Muuri('#grid', {
   }
 })
 
-const list = select('#grid')
-const input = select('#add-item')
-
-const view = new View(grid, list, input)
+const store = new Store()
+const todoList = new TodoList(store.todoList)
+const view = new View(input, list, grid)
 
 export default class Controller {
   constructor() {
+    this.handleInputKeydown = this.handleInputKeydown.bind(this)
     this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this)
   }
 
-  provideItemHandlers() {
+  get todoItemHandlers() {
     return {
       handleToggleClick: this.handleToggleClick,
       handleTodoContentDoubleClick: this.handleTodoContentDoubleClick,
@@ -35,7 +35,7 @@ export default class Controller {
   }
 
   initTodoList() {
-    const handlers = this.provideItemHandlers()
+    const handlers = this.todoItemHandlers
 
     todoList.todos.forEach(todo => {
       view.addItemToGrid(todo, handlers)
@@ -56,7 +56,7 @@ export default class Controller {
 
         e.target.value = ''
 
-        const handlers = this.provideItemHandlers()
+        const handlers = this.todoItemHandlers
 
         view.addItemToGrid(todo, handlers)
         view.updateItemIndices()
@@ -107,7 +107,7 @@ export default class Controller {
 
     store.todoList = todoList.todos
 
-    const handlers = this.provideItemHandlers()
+    const handlers = this.todoItemHandlers
 
     view.removeItemFromGrid(id, handlers)
     view.updateItemIndices()
@@ -140,7 +140,7 @@ export default class Controller {
   }
 
   setUpEventListeners() {
-    view.input.addEventListener('keydown', (e) => this.handleInputKeydown(e))
+    view.input.addEventListener('keydown', this.handleInputKeydown)
     view.grid.on('dragReleaseEnd', this.handleGridDragReleaseEnd)
   }
 }
